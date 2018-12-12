@@ -643,6 +643,7 @@ getCalleeDeclAndArgs(ConstraintSystem &cs,
     case KeyPathExpr::Component::Kind::OptionalChain:
     case KeyPathExpr::Component::Kind::OptionalWrap:
     case KeyPathExpr::Component::Kind::Identity:
+    case KeyPathExpr::Component::Kind::TupleElement:
       return std::make_tuple(nullptr, /*hasCurriedSelf=*/false, argLabels,
                              hasTrailingClosure);
     }
@@ -4269,6 +4270,11 @@ ConstraintSystem::simplifyKeyPathConstraint(Type keyPathTy,
         return SolutionKind::Unsolved;
       }
       
+      // tuple elements do not change the capability of the key path
+      if (choices[i].getKind() == OverloadChoiceKind::TupleIndex) {
+        continue;
+      }
+        
       // Discarded unsupported non-decl member lookups.
       if (!choices[i].isDecl()) {
         return SolutionKind::Error;
@@ -4322,6 +4328,10 @@ ConstraintSystem::simplifyKeyPathConstraint(Type keyPathTy,
       // An optional chain should already have forced the entire key path to
       // be read-only.
       assert(capability == ReadOnly);
+      break;
+
+    case KeyPathExpr::Component::Kind::TupleElement:
+      llvm_unreachable("[technicated]");
       break;
     }
   }

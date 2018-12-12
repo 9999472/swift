@@ -3533,6 +3533,11 @@ SILGenModule::emitKeyPathComponentForDecl(SILLocation loc,
   llvm_unreachable("unknown kind of storage");
 }
 
+KeyPathPatternComponent
+SILGenModule::emitKeyPathComponentForTupleElement() {
+    llvm_unreachable("technicated");
+}
+
 RValue RValueEmitter::visitKeyPathExpr(KeyPathExpr *E, SGFContext C) {
   if (E->isObjC()) {
     return visit(E->getObjCStringLiteralExpr(), C);
@@ -3602,7 +3607,16 @@ RValue RValueEmitter::visitKeyPathExpr(KeyPathExpr *E, SGFContext C) {
 
       break;
     }
-        
+
+    case KeyPathExpr::Component::Kind::TupleElement: {
+      loweredComponents.push_back(
+        SGF.SGM.emitKeyPathComponentForTupleElement());
+
+      baseTy = loweredComponents.back().getComponentType();
+
+      break;
+    }
+
     case KeyPathExpr::Component::Kind::OptionalChain:
     case KeyPathExpr::Component::Kind::OptionalForce:
     case KeyPathExpr::Component::Kind::OptionalWrap: {

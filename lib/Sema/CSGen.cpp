@@ -3045,7 +3045,12 @@ namespace {
                                          /*decl*/ nullptr, locator);
           break;
         }
-        
+
+        case KeyPathExpr::Component::Kind::TupleElement: {
+          llvm_unreachable("[technicated]");
+          break;
+        }
+                
         case KeyPathExpr::Component::Kind::OptionalChain: {
           didOptionalChain = true;
           
