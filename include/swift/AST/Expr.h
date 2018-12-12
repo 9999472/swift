@@ -4848,7 +4848,7 @@ public:
     
     union {
       unsigned SubscriptSize;
-      unsigned FieldNumber;
+      unsigned TupleIndex;
     } technicated;
       
     Kind KindValue;
@@ -5127,10 +5127,10 @@ public:
       llvm_unreachable("unhandled kind");
     }
       
-    unsigned getFieldNumber() const {
+    unsigned getTupleIndex() const {
       switch (getKind()) {
         case Kind::TupleElement:
-          return technicated.FieldNumber;
+          return technicated.TupleIndex;
                 
         case Kind::Invalid:
         case Kind::UnresolvedProperty:
