@@ -4849,7 +4849,7 @@ public:
     union {
       unsigned SubscriptSize;
       unsigned TupleIndex;
-    } technicated;
+    };
       
     Kind KindValue;
     Type ComponentType;
@@ -5049,7 +5049,7 @@ public:
       switch (getKind()) {
       case Kind::Subscript:
       case Kind::UnresolvedSubscript:
-        return {SubscriptLabelsData, (size_t)technicated.SubscriptSize};
+        return {SubscriptLabelsData, (size_t)SubscriptSize};
 
       case Kind::Invalid:
       case Kind::OptionalChain:
@@ -5070,7 +5070,7 @@ public:
       case Kind::Subscript:
         if (!SubscriptHashableConformancesData)
           return {};
-        return {SubscriptHashableConformancesData, (size_t)technicated.SubscriptSize};
+        return {SubscriptHashableConformancesData, (size_t)SubscriptSize};
 
       case Kind::UnresolvedSubscript:
       case Kind::Invalid:
@@ -5130,7 +5130,7 @@ public:
     unsigned getTupleIndex() const {
       switch (getKind()) {
         case Kind::TupleElement:
-          return technicated.TupleIndex;
+          return TupleIndex;
                 
         case Kind::Invalid:
         case Kind::UnresolvedProperty:
