@@ -4860,7 +4860,7 @@ public:
                        Expr *indexExpr,
                        ArrayRef<Identifier> subscriptLabels,
                        ArrayRef<ProtocolConformanceRef> indexHashables,
-                       unsigned fieldNumber,
+                       unsigned tupleIndex,
                        Kind kind,
                        Type type,
                        SourceLoc loc);
